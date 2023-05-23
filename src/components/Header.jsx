@@ -6,33 +6,44 @@ import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import { Avatar, Badge } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
+import MenuIcon from '@mui/icons-material/Menu';
+import { useWindowWidth } from "@react-hook/window-size";
 
-const Header = () => {
+const Header = ({ toggleDrawer }) => {
   const [user] = useAuthState(auth);
+  const onlyWidth = useWindowWidth();
 
-    return (
-        <HeaderContainer>
-            <HeaderLeft>
-                <StyledBadge
-                    overlap="circular"
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                    variant="dot"
-                >
-                    <Avatar style={{"cursor":"pointer"}} sx={{ width: 34, height: 34 ,marginLeft:2}} onClick={()=>auth.signOut()} src={user.photoURL} />
-                </StyledBadge>
-                <WatchLaterOutlinedIcon />
-            </HeaderLeft>
-            <HeaderSearch>
-                <label>
-                    <input type="text" placeholder="Search" />
-                    <SearchOutlinedIcon />
-                </label>
-            </HeaderSearch>
-            <HeaderRight>
-                <HelpOutlineOutlinedIcon />
-            </HeaderRight>
-        </HeaderContainer>
-    );
+
+  return (
+    <HeaderContainer>
+      <HeaderLeft>
+        {onlyWidth <= 500 ? <MenuIcon onClick={toggleDrawer} /> : null}
+
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          variant="dot"
+        >
+          <Avatar style={{ "cursor": "pointer" }} sx={{ width: 34, height: 34, marginLeft: 2 }} onClick={() => auth.signOut()} src={user.photoURL} />
+        </StyledBadge>
+        {onlyWidth > 500 ? <WatchLaterOutlinedIcon /> : null}
+
+      </HeaderLeft>
+      <HeaderSearch>
+        <label>
+          <input type="text" placeholder="Search" />
+          <SearchOutlinedIcon />
+        </label>
+      </HeaderSearch>
+      {onlyWidth > 500 ?
+        <HeaderRight>
+          <HelpOutlineOutlinedIcon />
+        </HeaderRight>
+        : null}
+
+
+    </HeaderContainer>
+  );
 };
 
 const HeaderContainer = styled.div`
@@ -49,6 +60,14 @@ const HeaderLeft = styled.div`
   align-items: center;
   justify-content: space-between;
   flex: 0.2;
+  @media (max-width:768px){
+  flex: 0.8;
+
+  }
+  @media (max-width:500px){
+    padding: 0 20px;
+    flex: 1;
+  }
   > svg {
     margin-right: 24px;
     width: 30px;
@@ -62,31 +81,31 @@ const HeaderLeft = styled.div`
   }
 `;
 const StyledBadge = styled(Badge)(() => ({
-    "& .MuiBadge-badge": {
-        backgroundColor: "#44b700",
-        color: "#44b700",
-        "&::after": {
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            borderRadius: "50%",
-            animation: "ripple 2.5s infinite ease-in-out",
-            border: "1px solid currentColor",
-            content: '""',
-        },
+  "& .MuiBadge-badge": {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "ripple 2.5s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
     },
-    "@keyframes ripple": {
-        "0%": {
-            transform: "scale(.8)",
-            opacity: 1,
-        },
-        "100%": {
-            transform: "scale(2.4)",
-            opacity: 0,
-        },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
     },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
 }));
 
 const HeaderSearch = styled.div`

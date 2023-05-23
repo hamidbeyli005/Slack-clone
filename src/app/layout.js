@@ -9,14 +9,25 @@ import Login from "@/components/Login";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import Loader from "@/components/Loader";
+import { useWindowWidth } from "@react-hook/window-size";
+import "react-modern-drawer/dist/index.css";
+import { useState } from "react";
+import Drawer from "react-modern-drawer";
 
 export default function RootLayout({ children }) {
   const [user, loading] = useAuthState(auth);
+  const onlyWidth = useWindowWidth();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDrawer = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
   if (loading) {
     return (
       <html lang="en">
         <body>
-          <Loader/>
+          <Loader />
         </body>
       </html>
     );
@@ -24,17 +35,25 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        {
-          console.log(user)
-        }
         {!user ? (
           <Login />
         ) : (
           <Provider store={store}>
-            <Header />
-            <Wrapper>
-              <Sidebar />
+            <Header toggleDrawer={toggleDrawer} />
+            {/* mobile menu */}
 
+            <Drawer
+              open={isOpen}
+              onClose={toggleDrawer}
+              direction="left"
+              className="bla bla bla"
+            >
+              <Sidebar toggleDrawer={toggleDrawer} />
+            </Drawer>
+
+            {/* mobile menu */}
+            <Wrapper>
+              {onlyWidth > 500 ? <Sidebar /> : null}
               {children}
             </Wrapper>
           </Provider>

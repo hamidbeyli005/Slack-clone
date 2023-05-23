@@ -1,9 +1,19 @@
+"use client"
 import Chat from "@/components/Chat";
+import styled from "styled-components";
 
 export default function Home() {
   return (
-    <main style={{"flex":"0.8"}}>
+    <Main >
       <Chat />
-    </main>
+    </Main>
   );
 }
+
+const Main =styled.div`
+flex: 0.8;
+@media (max-width:500px){
+  padding: 0 1rem;
+  flex: 1;
+  }
+`;

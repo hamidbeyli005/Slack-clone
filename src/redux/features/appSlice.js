@@ -9,7 +9,6 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     enterChannel: (state,action) => {
-      console.log(action.payload.channelId)
       state.channelId =action.payload.channelId;
 
     },

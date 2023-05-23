@@ -7,7 +7,7 @@ import SidebarOption from "./SidebarOption"
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-const Sidebar = () => {
+const Sidebar = ({toggleDrawer}) => {
     const [channels, loading, error] = useCollection(collection(db, "channels"));
     const [user] = useAuthState(auth);
 
@@ -15,7 +15,7 @@ const Sidebar = () => {
     return (
         <SidebarContainer>
             <SidebarHeader>
-                <SidebarInfo >
+                <SidebarInfo  >
                     <h2>Slack Clone</h2>
                     <h3>
                         {user?.displayName}
@@ -23,18 +23,22 @@ const Sidebar = () => {
                 </SidebarInfo>
                 <Create />
             </SidebarHeader>
-            <SidebarOption Icon={InsertComment} title="Threads" />
-            <SidebarOption Icon={Drafts} title="Saved items" />
-            <SidebarOption Icon={MoreVert} title="More" />
+            <div onClick={toggleDrawer}>
 
-            <SidebarOption Icon={Add} addChannelOption title="Add channel" />
+                <SidebarOption Icon={InsertComment} title="Threads" />
+                <SidebarOption Icon={Drafts} title="Saved items" />
+                <SidebarOption Icon={MoreVert} title="More" />
 
-            {
-                channels?.docs.map((channel) => (
-                    <SidebarOption key={channel.id} title={channel.data().name} id={channel.id} />
-                ))
+                <SidebarOption Icon={Add} addChannelOption title="Add channel" />
 
-            }
+                {
+                    channels?.docs.map((channel) => (
+                        <SidebarOption key={channel.id} title={channel.data().name} id={channel.id} />
+                    ))
+
+                }
+            </div>
+
 
 
 
@@ -49,6 +53,8 @@ export default Sidebar
 const SidebarContainer = styled.div`
   background: #3F0E40;
   flex: 0.2;
+  height: 100vh;
+
 
 `
 const SidebarHeader = styled.div`
