@@ -1,10 +1,14 @@
 "use client"
 import Chat from "@/components/Chat";
+import Head from "next/head";
 import styled from "styled-components";
 
 export default function Home() {
   return (
     <Main >
+                    <Head>
+        <title>Yeni Sekme Başlığı</title>
+      </Head>
       <Chat />
     </Main>
   );

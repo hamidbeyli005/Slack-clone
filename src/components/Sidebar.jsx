@@ -6,6 +6,7 @@ import { collection } from "firebase/firestore";
 import SidebarOption from "./SidebarOption"
 import { useCollection } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Head from "next/head";
 
 const Sidebar = ({toggleDrawer}) => {
     const [channels, loading, error] = useCollection(collection(db, "channels"));
@@ -14,6 +15,7 @@ const Sidebar = ({toggleDrawer}) => {
 
     return (
         <SidebarContainer>
+
             <SidebarHeader>
                 <SidebarInfo  >
                     <h2>Slack Clone</h2>
@@ -53,7 +55,7 @@ export default Sidebar
 const SidebarContainer = styled.div`
   background: #3F0E40;
   flex: 0.2;
-  height: 100vh;
+  height: 100%;
 
 
 `

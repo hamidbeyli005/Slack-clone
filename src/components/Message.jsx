@@ -40,6 +40,9 @@ width: 38px;
 const MessageContent = styled.div`
     width: 50vw;
     overflow-wrap: break-word;
+    @media (max-width:500px) {
+        width: 68vw;
+}
 >h3{
 font-weight: 600;
 font-size: 17px;

@@ -13,6 +13,8 @@ import { useWindowWidth } from "@react-hook/window-size";
 import "react-modern-drawer/dist/index.css";
 import { useState } from "react";
 import Drawer from "react-modern-drawer";
+import Head from 'next/head';
+
 
 export default function RootLayout({ children }) {
   const [user, loading] = useAuthState(auth);
@@ -34,7 +36,9 @@ export default function RootLayout({ children }) {
   }
   return (
     <html lang="en">
+
       <body>
+
         {!user ? (
           <Login />
         ) : (
